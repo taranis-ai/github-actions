@@ -48,6 +48,7 @@ jobs:
         uses: docker/build-push-action@v6
         id: build
         with:
+          context: .
           file: Containerfile
           platforms: linux/${{ inputs.os == 'ubuntu-latest' && 'amd64' || 'arm64' }}
           labels: ${{ steps.meta.outputs.labels }}
