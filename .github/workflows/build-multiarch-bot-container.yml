@@ -26,6 +26,13 @@ jobs:
     env:
       GHCR_IMAGE: ${{ inputs.ghcr_image }}
     steps:
+
+      - name: Remove unnecessary files
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+        if: runner.os == 'Linux'
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
