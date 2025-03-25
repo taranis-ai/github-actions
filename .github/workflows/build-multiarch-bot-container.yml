@@ -56,7 +56,7 @@ jobs:
         id: build
         with:
           file: Containerfile
-          platforms: linux/${{ inputs.os == 'ubuntu-latest' || inputs.os == 'blacksmith-4vcpu-ubuntu-2204' && 'amd64' || 'arm64' }}
+          platforms: linux/${{ endsWith(inputs.os, '-arm64') && 'arm64' || 'amd64' }}
           labels: ${{ steps.meta.outputs.labels }}
           provenance: true
           build-args: |
