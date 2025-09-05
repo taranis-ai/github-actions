@@ -1,6 +1,13 @@
 name: Smoke test
 on:
   workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+      repo_name:
+        required: true
+        type: string
 
 jobs:
   test_docker_deployment:
@@ -12,15 +19,15 @@ jobs:
         with:
           file: Containerfile
           push: false
-          tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          tags: ghcr.io/taranis-ai/${{ inputs.repo_name }}:${{ inputs.tag }}
 
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Run docker compose for last commit
         env:
-          TAG: ${{ github.ref_name }}
-          REPO_NAME: ${{ github.event.repository.name }}
+          TAG: ${{ inputs.tag }}
+          REPO_NAME: ${{ inputs.repo_name }}
         working-directory: docker/
         run: |
           docker compose -f compose.e2e.yml up --pull=never --wait-timeout=60 --wait
