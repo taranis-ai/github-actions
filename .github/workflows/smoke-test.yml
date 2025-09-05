@@ -1,9 +1,6 @@
 name: Smoke test
 on:
-  workflow_dispatch:
-  pull_request_review:
-    types: [submitted]
-  push:
+  workflow_call:
 
 jobs:
   test_docker_deployment:
