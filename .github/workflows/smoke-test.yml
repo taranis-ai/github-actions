@@ -5,6 +5,10 @@ on:
       repo_name:
         required: true
         type: string
+      tag_name:
+        required: false
+        type: string
+        default: ci_test
 
 jobs:
   test_docker_deployment:
@@ -16,7 +20,7 @@ jobs:
         with:
           file: Containerfile
           push: false
-          tags: ghcr.io/taranis-ai/${{ inputs.repo_name }}:ci_test
+          tags: ghcr.io/taranis-ai/${{ inputs.repo_name }}:${{ inputs.tag_name }}
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,6 +28,7 @@ jobs:
       - name: Run docker compose for last commit
         env:
           REPO_NAME: ${{ inputs.repo_name }}
+          TAG: ${{ inputs.tag_name }}
         working-directory: docker/
         run: |
           docker compose -f compose.e2e.yml up --pull=never --wait-timeout=60 --wait
