@@ -16,7 +16,7 @@ jobs:
         with:
           file: Containerfile
           push: false
-          tags: ghcr.io/taranis-ai/${{ inputs.repo_name }}:latest
+          tags: ghcr.io/taranis-ai/${{ inputs.repo_name }}:ci_test
 
       - name: Checkout repository
         uses: actions/checkout@v4
