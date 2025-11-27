@@ -2,7 +2,7 @@ name: Smoke test
 on:
   workflow_call:
     inputs:
-      repo_name:
+      image_name:
         required: true
         type: string
       tag_name:
@@ -20,14 +20,13 @@ jobs:
         with:
           file: Containerfile
           push: false
-          tags: ghcr.io/taranis-ai/taranis-${{ inputs.repo_name }}:${{ inputs.tag_name }}
-
+          tags: ghcr.io/taranis-ai/${{ inputs.image_name }}:${{ inputs.tag_name }}
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Run docker compose for last commit
         env:
-          REPO_NAME: taranis-${{ inputs.repo_name }}
+          IMAGE_NAME: ${{ inputs.image_name }}
           TAG: ${{ inputs.tag_name }}
         working-directory: docker/
         run: |
